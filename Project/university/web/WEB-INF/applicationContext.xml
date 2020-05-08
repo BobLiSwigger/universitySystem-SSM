@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!--<property>标签配置属性（DI依赖注入，若注入属性为bean，则应用ref标识符）-->
     <!--scope="singleton"该bean为单例对象，若为prototype则为多例对象，每次创建一个新的对象-->
@@ -12,20 +20,41 @@
     </bean>
     -->
 
-
     <!--【数据库连接配置文件】dataSource这里似乎有潜在的问题（spring框架下原生jdbc是否还可以使用）-->
     <bean id="dataSource" class="org.apache.ibatis.datasource.pooled.PooledDataSource">
         <property name="driver" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://localhost:3306/universityCourse?serverTimezone=Asia/Shanghai"/>
         <property name="username" value="universityAdmin"/>
         <property name="password" value="123456"/>
-
     </bean>
     <!--sqlSessionFactory的bean-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" >
         <property name="dataSource" ref="dataSource"/>
     </bean>
-    <!--映射文件的配置-->
+    <!--Spring Transaction Manager-->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--Transaction Config-->
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+        <!-- the transactional semantics... -->
+        <tx:attributes>
+            <!-- all methods starting with 'get' are read-only -->
+            <tx:method name="get*" read-only="true"/>
+            <!-- other methods use the default transaction settings (see below) -->
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- ensure that the above transactional advice runs for any execution
+        of an operation defined by the FooService interface -->
+    <aop:config>
+        <aop:pointcut id="fooServiceOperation" expression="execution(* x.y.service.FooService.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="fooServiceOperation"/>
+    </aop:config>
+
+    <!--DAO层Mybatis映射配置-->
     <bean id="cardMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
         <property name="mapperInterface" value="DAO.CardMapper"/>
@@ -39,5 +68,5 @@
     <bean id="applicationService" class="Services.ApplicationServiceImp" scope="singleton"/>
     <bean id="cardService" class="Services.CardServiceImp" lazy-init="true" scope="singleton"/>
     <bean id="cardNumbers" class="POJOs.CardNumbers" lazy-init="true" scope="singleton"/>
-    <bean id="logInUser" class="POJOs.Card" lazy-init="true" scope="singleton"/>
+    <bean id="logInUser" class="POJOs.Card" lazy-init="true" scope="session"/>
 </beans>

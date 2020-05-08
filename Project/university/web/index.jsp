@@ -9,10 +9,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <title>首页</title>
+    <title>Greytit University</title>
   </head>
   <body>
-  <h1>欢迎使用嗖嗖移动用户大厅</h1>
+  <h1>欢迎光临Greytit大学选课系统</h1>
   <form action="logInController.form" method="POST">
     <br/>
     卡号<input type="text" name="phonenumber"/>
