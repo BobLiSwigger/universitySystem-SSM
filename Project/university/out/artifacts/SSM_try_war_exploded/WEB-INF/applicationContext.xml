@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--<property>标签配置属性（DI依赖注入，若注入属性为bean，则应用ref标识符）-->
+    <!--scope="singleton"该bean为单例对象，若为prototype则为多例对象，每次创建一个新的对象-->
+    <!--beanfactory创建对象后会立即调用init-method,-->
+    <!--
+    <bean id="hello" class="test.hello" scope="prototype" init-method="xxx" destroy-method="xxx">
+        <property name="name" ref="hello"/>
+    </bean>
+    -->
+
+
+    <!--【数据库连接配置文件】dataSource这里似乎有潜在的问题（spring框架下原生jdbc是否还可以使用）-->
+    <bean id="dataSource" class="org.apache.ibatis.datasource.pooled.PooledDataSource">
+        <property name="driver" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://192.168.254.132:3306/test1?serverTimezone=Asia/Shanghai"/>
+        <property name="username" value="universityAdmin"/>
+        <property name="password" value="123456"/>
+
+    </bean>
+    <!--sqlSessionFactory的bean-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" >
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--映射文件的配置-->
+    <bean id="cardMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <property name="mapperInterface" value="DAO.CardMapper"/>
+    </bean>
+    <bean id="applicationMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <property name="mapperInterface" value="DAO.ApplicationMapper"/>
+    </bean>
+
+    <!--普通的bean-->
+    <bean id="applicationService" class="Services.ApplicationServiceImp" scope="singleton"/>
+    <bean id="cardService" class="Services.CardServiceImp" lazy-init="true" scope="singleton"/>
+    <bean id="cardNumbers" class="POJOs.CardNumbers" lazy-init="true" scope="singleton"/>
+    <bean id="logInUser" class="POJOs.Card" lazy-init="true" scope="singleton"/>
+</beans>
