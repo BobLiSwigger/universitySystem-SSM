@@ -50,7 +50,7 @@
     <!-- ensure that the above transactional advice runs for any execution
         of an operation defined by the FooService interface -->
     <aop:config>
-        <aop:pointcut id="fooServiceOperation" expression="execution(* x.y.service.FooService.*(..))"/>
+        <aop:pointcut id="fooServiceOperation" expression="execution(* Services.StudentService.*(..))"/>
         <aop:advisor advice-ref="txAdvice" pointcut-ref="fooServiceOperation"/>
     </aop:config>
 
