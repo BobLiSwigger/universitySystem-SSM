@@ -3,22 +3,25 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="DAO.StudentMapper">
-    <select id="getStudentById" parameterType="int" resultType="POJOs.Student">
+    <select id="getTeacherById" parameterType="int" resultType="POJOs.Teacher">
         select Dept_ID as dept,
-               credit
-               from Student where User_ID = #{id};
+               level,
+               salary
+        from Teacher where User_ID = #{id};
     </select>
-    <insert id="createStudent" parameterType="POJOs.Student">
-        insert into Student (User_ID, Dept_ID, credit)
-        values(#{id}, #{dept}, #{credit})
+    <insert id="createTeacher" parameterType="POJOs.Teacher">
+        insert into Teacher (User_ID, Dept_ID, level, salary)
+        values(#{id}, #{dept}, #{level}, #{salary})
     </insert>
-    <update id="updateStudent" parameterType="POJOs.Student">
-        update Student set
-        Dept_ID = #{dept},
-        credit = #{credit}
+    <update id="updateTeacher" parameterType="POJOs.Teacher">
+        update Teacher
+        set
+            Dept_ID = #{dept},
+            level = #{level},
+            salary = #{salary}
         where User_ID = #{id}
     </update>
-    <!--查询该学生选课-->
+    <!--查询该教师教课-->
     <select id="getTokenClasses" parameterType="int" resultType="POJOs.Classes">
         SELECT course.Course_ID as "courseID",
                department.name as "dept",
@@ -30,10 +33,10 @@
                classes.term as "term",
                classes.maxSize as "maxSize",
                classes.size as "size"
-        FROM course, classes, department, take
+        FROM course, classes, department, teach
         WHERE classes.Course_ID=course.Course_ID
           AND course.Dept_ID=department.Dept_ID
-          AND take.Class_ID=classes.Class_ID
-          AND take.User_ID=#{id};
+          AND teach.Class_ID=classes.Class_ID
+          AND teach.User_ID=#{id};
     </select>
 </mapper>

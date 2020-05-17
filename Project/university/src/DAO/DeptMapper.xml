@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DAO.StudentMapper">
+    <select id="getDeptById" parameterType="String" resultType="POJOs.Dept">
+        select Dept_ID as "deptID",
+               name
+        from Department where Dept_ID = #{deptID};
+    </select>
+    <select id="getDeptByName" parameterType="String" resultType="POJOs.Dept">
+        select Dept_ID as "deptID",
+               name
+        from Department where name = #{name};
+    </select>
+    <insert id="createDept" parameterType="POJOs.Dept">
+        insert into Department (Dept_ID, name)
+        values(#{deptID}, #{name})
+    </insert>
+    <update id="updateDpet" parameterType="POJOs.Dept">
+        update Department
+        set
+            name = #{name}
+        where Dept_ID = #{deptID}
+    </update>
+    <!--查询该学院要求课程-->
+    <select id="getRequiredCourse" parameterType="String" resultType="POJOs.Course">
+        SELECT course.Course_ID as "courseID",
+               course.name as "courseName",
+               course.description as "courseDescription",
+               course.credit as "credit",
+        FROM course, required
+        WHERE required.Dept_ID = deptID
+          AND required.Course_ID = course.Course_ID
+    </select>
+</mapper>

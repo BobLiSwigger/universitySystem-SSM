@@ -1,13 +1,15 @@
 package POJOs;
 
 public class User {
+    //Table Attributes
     protected int id;
     protected String name;
     protected String email;
     protected boolean sex;//0为男，1为女
-
     protected String password;
     protected boolean active;
+
+    //Class Attributes
     protected boolean status;
 
     public User(){
@@ -16,7 +18,7 @@ public class User {
         this.email="";
         this.sex=false;
         this.password="";
-        this.active=false;
+        this.active=true;
         this.status=false;
     }
     public void setId(int id){

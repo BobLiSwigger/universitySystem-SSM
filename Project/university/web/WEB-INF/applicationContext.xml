@@ -31,12 +31,8 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" >
         <property name="dataSource" ref="dataSource"/>
     </bean>
-    <!--Spring Transaction Manager-->
-    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
 
-    <!--Transaction Config-->
+    <!--事务Adivcer配置-->
     <tx:advice id="txAdvice" transaction-manager="txManager">
         <!-- the transactional semantics... -->
         <tx:attributes>
@@ -47,17 +43,22 @@
         </tx:attributes>
     </tx:advice>
 
-    <!-- ensure that the above transactional advice runs for any execution
-        of an operation defined by the FooService interface -->
+    <!-- 保证上面的事呜txAdvice在StudentService所有接口的实现方法上运行 -->
     <aop:config>
-        <aop:pointcut id="fooServiceOperation" expression="execution(* Services.StudentService.*(..))"/>
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="fooServiceOperation"/>
+        <aop:pointcut id="StuServiceOpt" expression="execution(* Services.StudentService.*(..))"/>
+        <!-- 在下面注入了txAdvice -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="StuServiceOpt"/>
     </aop:config>
+
+    <!--Spring Transaction Manager-->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
 
     <!--DAO层Mybatis映射配置-->
     <bean id="cardMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
-        <property name="mapperInterface" value="DAO.CardMapper"/>
+        <property name="mapperInterface" value="DAO.StudentMapper"/>
     </bean>
     <bean id="applicationMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
@@ -68,5 +69,5 @@
     <bean id="applicationService" class="Services.ApplicationServiceImp" scope="singleton"/>
     <bean id="cardService" class="Services.CardServiceImp" lazy-init="true" scope="singleton"/>
     <bean id="cardNumbers" class="POJOs.CardNumbers" lazy-init="true" scope="singleton"/>
-    <bean id="logInUser" class="POJOs.Card" lazy-init="true" scope="session"/>
+    <bean id="logInUser" class="POJOs.User" lazy-init="true" scope="session"/>
 </beans>

@@ -1,6 +1,5 @@
 package Services;
 
-import DAO.CardMapper;
 import POJOs.Card;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.ContextLoader;
