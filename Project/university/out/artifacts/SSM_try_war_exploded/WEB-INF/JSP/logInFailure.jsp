@@ -12,7 +12,6 @@
 </head>
 <body>
 <a href="${pageContext.request.contextPath}/index.jsp">返回首页</a>
-<a href="enterConsume.form">模拟消费</a>
 <br/><br/><br/>
 <h1>${reason}</h1>
 </body>

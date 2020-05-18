@@ -20,6 +20,7 @@ public class Student extends User{
     }
     public void setCredit(float credit){
         this.credit=credit;
+        System.out.println("set this Student credit = " + credit);
     }
     public void setDeptid(String dept){
         this.dept=dept;
@@ -34,5 +35,18 @@ public class Student extends User{
     }
     public List<Classes> getTokenclasses(){
         return this.tokenclasses;
+    }
+
+    public void setAllAttribures(Student student){
+        super.id = student.id;
+        super.name = student.name;
+        super.email = student.email;
+        super.sex = student.sex;
+        super.password = student.password;
+        super.active = student.active;
+        super.logInStatus = student.logInStatus;
+        this.dept = student.dept;
+        this.credit = student.credit;
+        this.tokenclasses = student.tokenclasses;
     }
 }

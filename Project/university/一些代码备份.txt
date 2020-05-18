@@ -1,0 +1,60 @@
+package Services;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+public class ApplicationServiceImp implements ApplicationService {
+    @Override
+    public List<String> generateNonRepeatingNumbers(CardNumbers existingNumbers) {
+        long t = System.currentTimeMillis();//获得当前时间的毫秒数
+        Random rand = new Random(t);//作为种子数传入到Random的构造器中
+        int [] numbers=new int[9];
+        List<String> phoneNumbers=new ArrayList<String>();
+        for(int i=0;i<9;i++) {
+            //去除已注册的电话号码
+            while(true) {
+                numbers[i] = rand.nextInt(100000000);
+                boolean judge = true;
+                for (String cardNumber : existingNumbers.cardNumbers) {
+                    if (numbers[i] == Integer.parseInt(cardNumber.substring(3, 11))) {
+                        judge=false;
+                        break;
+                    }
+                }
+                //去除重复生成的随机数
+                for(int j=0;j<i;j++){
+                    if (numbers[i] == numbers[j]) {
+                        judge = false;
+                        break;
+                    }
+                }
+                if(judge)
+                    break;
+            }
+            phoneNumbers.add("139"+String.format("%08d", numbers[i]));
+        }
+        return phoneNumbers;
+    }
+}
+
+
+
+<!--事务Adivcer配置-->
+
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+        <!-- the transactional semantics... -->
+        <tx:attributes>
+            <!-- all methods starting with 'get' are read-only -->
+            <tx:method name="get*" read-only="true"/>
+            <!-- other methods use the default transaction settings (see below) -->
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- 保证上面的事呜txAdvice在StudentService所有接口的实现方法上运行 -->
+    <aop:config>
+        <aop:pointcut id="StuServiceOpt" expression="execution(* Services.StudentServiceImp.*(..))"/>
+        <!-- 在下面注入了txAdvice -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="StuServiceOpt"/>
+    </aop:config>

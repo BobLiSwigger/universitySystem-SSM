@@ -34,11 +34,25 @@ public class Teacher extends User {
         this.teachClass = teachClass;
     }
 
+
     //User defined Function
     public void teachClass(Classes cls){
 
     }
     public void openClass(Classes cls){
 
+    }
+    public void setAllAttribures(Teacher teacher){
+        super.id = teacher.id;
+        super.name = teacher.name;
+        super.email = teacher.email;
+        super.sex = teacher.sex;
+        super.password = teacher.password;
+        super.active = teacher.active;
+        super.logInStatus = teacher.logInStatus;
+        this.dept = teacher.dept;
+        this.level = teacher.level;
+        this.salary = teacher.salary;
+        this.teachClass = teacher.teachClass;
     }
 }

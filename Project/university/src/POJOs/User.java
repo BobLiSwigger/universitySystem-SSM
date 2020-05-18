@@ -10,7 +10,7 @@ public class User {
     protected boolean active;
 
     //Class Attributes
-    protected boolean status;
+    protected boolean logInStatus;
 
     public User(){
         this.id=0;
@@ -19,7 +19,7 @@ public class User {
         this.sex=false;
         this.password="";
         this.active=true;
-        this.status=false;
+        this.logInStatus=false;
     }
     public void setId(int id){
         this.id=id;
@@ -28,6 +28,7 @@ public class User {
         this.name=name;
     }
     public void setPassword(String password){
+        System.out.println("setPassword = " + password);
         this.password=password;
     }
     public void setEmail(String email){
@@ -39,8 +40,8 @@ public class User {
     public void setActive(boolean active){
         this.active=active;
     }
-    public void setStatus(boolean status){
-        this.status=status;
+    public void setlogInStatus(boolean status){
+        this.logInStatus=status;
     }
 
     public int getId(){
@@ -61,7 +62,17 @@ public class User {
     public boolean getActive(){
         return this.active;
     }
-    public boolean getStatus(){
-        return this.status;
+    public boolean getlogInStatus(){
+        return this.logInStatus;
+    }
+
+    public void setAllAttributes(User user){
+        this.id = user.id;
+        this.name = user.name;
+        this.email = user.email;
+        this.sex = user.sex;
+        this.password = this.password;
+        this.active = user.active;
+        this.logInStatus = user.logInStatus;
     }
 }
