@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 public class logIn implements Controller {
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        System.out.println("logInController");
 
         /************************必要的临时对象************************/
         ModelAndView modelAndView;

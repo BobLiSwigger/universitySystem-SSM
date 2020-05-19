@@ -28,7 +28,6 @@ public class User {
         this.name=name;
     }
     public void setPassword(String password){
-        System.out.println("setPassword = " + password);
         this.password=password;
     }
     public void setEmail(String email){

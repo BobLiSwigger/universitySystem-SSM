@@ -15,6 +15,9 @@
     <form action="${pageContext.request.contextPath}/goto.form" method="get">
         <input name="url" value="选课" type="submit" onclick="this.location.reload()"/>
     </form>
+    <form action="${pageContext.request.contextPath}/goto.form" method="get">
+        <input name="url" value="我修的课程" type="submit" onclick="this.location.reload()"/>
+    </form>
 
 
     <h1>欢迎回到学生信息系统，${name}。</h1>

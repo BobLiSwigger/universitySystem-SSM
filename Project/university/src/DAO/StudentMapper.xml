@@ -26,7 +26,7 @@
         where User_ID = #{id}
     </update>
     <!--查询该学生选课-->
-    <select id="getTokenClasses" parameterType="int" resultType="POJOs.Classes">
+    <select id="getTakenClasses" parameterType="int" resultType="POJOs.Classes">
         SELECT course.Course_ID as "courseID",
                department.name as "dept",
                course.name as "courseName",

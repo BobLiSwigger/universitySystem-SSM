@@ -1,6 +1,7 @@
 package POJOs;
 
 import java.time.Year;
+import java.util.List;
 
 public class Classes extends Course {
     private int classID;
@@ -8,6 +9,7 @@ public class Classes extends Course {
     private boolean term;
     private short maxSize;
     private short size;
+    private List<Teacher> teachers;
 
 
     public int getClassID() {
@@ -26,7 +28,7 @@ public class Classes extends Course {
         this.year = year;
     }
 
-    public boolean isTerm() {
+    public boolean getTerm() {
         return term;
     }
 
@@ -48,5 +50,13 @@ public class Classes extends Course {
 
     public void setSize(short size) {
         this.size = size;
+    }
+
+    public List<Teacher> getTeachers() {
+        return teachers;
+    }
+
+    public void setTeachers(List<Teacher> teachers) {
+        this.teachers=teachers;
     }
 }

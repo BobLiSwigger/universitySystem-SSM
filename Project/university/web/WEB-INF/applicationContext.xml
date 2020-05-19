@@ -52,12 +52,18 @@
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
         <property name="mapperInterface" value="DAO.TeacherMapper"/>
     </bean>
+    <bean id="classesMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <property name="mapperInterface" value="DAO.ClassesMapper"/>
+    </bean>
 
     <!--Services-->
     <bean id="userService" class="Services.UserServiceImp" lazy-init="true" scope="singleton"/>
-
+    <bean id="studentService" class="Services.StudentServiceImp" lazy-init="true" scope="singleton"/>
+    <bean id="classesService" class="Services.ClassServiceImp" lazy-init="true" scope="singleton"/>
     <!--普通的Bean-->
-    <bean id="logInUser" class="POJOs.User" scope="session"/>
-    <bean id="logInStudent" class="POJOs.Student" scope="session"/>
-    <bean id="logInTeacher" class="POJOs.Teacher" scope="session"/>
+    <bean id="globalValues" class="POJOs.GlobalValues" scope="singleton"/>
+    <bean id="logInUser" class="POJOs.User" lazy-init="true" scope="session"/>
+    <bean id="logInStudent" class="POJOs.Student" lazy-init="true" scope="session"/>
+    <bean id="logInTeacher" class="POJOs.Teacher" lazy-init="true" scope="session"/>
 </beans>

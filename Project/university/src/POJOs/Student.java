@@ -12,15 +12,14 @@ public class Student extends User{
     protected String dept;//该学生所属学院
 
     //Class Attributes
-    public List<Classes> tokenclasses;//该学生上过的课程
+    public List<Classes> takenclasses;//该学生上过的课程
 
     //setFunction
-    public void setTokenclasses(List<Classes> tokenclasses){
-        this.tokenclasses = tokenclasses;
+    public void setTakenclasses(List<Classes> takenclasses){
+        this.takenclasses = takenclasses;
     }
     public void setCredit(float credit){
         this.credit=credit;
-        System.out.println("set this Student credit = " + credit);
     }
     public void setDeptid(String dept){
         this.dept=dept;
@@ -33,10 +32,11 @@ public class Student extends User{
     public String getDept(){
         return this.dept;
     }
-    public List<Classes> getTokenclasses(){
-        return this.tokenclasses;
+    public List<Classes> getTakenclasses(){
+        return this.takenclasses;
     }
 
+    //相当于赋值操作，但是不改变指向对象
     public void setAllAttribures(Student student){
         super.id = student.id;
         super.name = student.name;
@@ -47,6 +47,7 @@ public class Student extends User{
         super.logInStatus = student.logInStatus;
         this.dept = student.dept;
         this.credit = student.credit;
-        this.tokenclasses = student.tokenclasses;
+        this.takenclasses = student.takenclasses;
     }
+
 }

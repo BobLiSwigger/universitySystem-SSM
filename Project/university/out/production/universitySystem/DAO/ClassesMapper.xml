@@ -4,33 +4,72 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="DAO.ClassesMapper">
     <!--可重用sql-->
-    <sql id="ClassesAttribute"> course.Course_ID as "courseID",
+    <sql id="classesAttribute"> course.Course_ID as "courseID",
                department.name as "dept",
                course.name as "courseName",
-               course.description as "courseDescription",
                course.credit as "credit",
                classes.Class_ID as "classID",
                classes.year as "year",
                classes.term as "term",
                classes.maxSize as "maxSize",
-               classes.size as "size" </sql>
+               classes.size as "size"
+    </sql>
+    <sql id="teacherAttribute">
+        users.name as "teacherName"
+    </sql>
+    <!--手动配置结果集映射-->
+    <resultMap id="classMap" type="POJOs.Classes">
+        <id column="Class_ID" property="classID" />
+        <result column="courseID" jdbcType="CHAR" property="courseID"/>
+        <result column="courseName" jdbcType="VARCHAR" property="courseName"/>
+        <result column="credit" jdbcType="FLOAT" property="credit"/>
+        <result column="year" property="year"/>
+        <result column="term" property="term"/>
+        <result column="maxSize" jdbcType="SMALLINT" property="maxSize"/>
+        <result column="size" jdbcType="SMALLINT" property="size"/>
+        <association property="dept" javaType="POJOs.Dept">
+            <result  column="dept" jdbcType="CHAR" property="name"/>
+        </association>
+    </resultMap>
+
     <!--按照ID查找Classes-->
-    <select id="getClassesByID" parameterType="int" resultType="POJOs.Classes">
-        SELECT <include refid="ClassesAttribute"/>
+    <select id="getClassesByID" parameterType="int" resultType="POJOs.Classes" resultMap="classMap">
+        SELECT
+        <include refid="classesAttribute"/>
         FROM course, classes, department
         WHERE classes.Course_ID=course.Course_ID
-          AND course.Dept_ID=department.Dept_ID
-          AND classes.Class_ID=#{classID};
+            AND course.Dept_ID=department.Dept_ID
+            AND classes.Class_ID=#{classID};
     </select>
+
+    <!--按照学生ID查找Classes-->
+    <select id="getClassesByStudentID" parameterType="int" resultType="POJOs.Classes" resultMap="classMap">
+        SELECT
+        <include refid="classesAttribute"/>
+        FROM course, classes, department, take
+            WHERE classes.Course_ID=course.Course_ID
+            AND course.Dept_ID=department.Dept_ID
+            AND take.Class_ID=classes.Class_ID
+            AND take.User_ID=#{id};
+    </select>
+
     <!--获得某一年某学期的所有课程-->
-    <select id="getClassesByYearAndTerm" parameterType="POJOs.Classes" resultType="POJOs.Classes">
-        SELECT <include refid="ClassesAttribute"/>
+    <select id="getClassesByYearAndTerm" parameterType="POJOs.Classes" resultType="POJOs.Classes" resultMap="classMap">
+        SELECT
+        <include refid="classesAttribute"/>
         FROM course, classes, department
         WHERE classes.Course_ID=course.Course_ID
-          AND course.Dept_ID=department.Dept_ID
-          AND classes.year=#{year}
-          AND classes.term=#{term}
+            AND course.Dept_ID=department.Dept_ID
+            AND classes.term=#{term}
+            AND classes.year=#{year};
     </select>
+
+    <!--获得当前学期的所有课程-->
+    <select id="getCurrentClasses" parameterType="POJOs.Classes" resultType="POJOs.Classes" resultMap="classMap">
+        SELECT *
+        FROM currentClasses;
+    </select>
+
     <insert id="createClassesTable" parameterType="POJOs.Classes" useGeneratedKeys="true" keyProperty="classesID">
         insert into classes (Course_ID, year, term, maxSize, size)
         values(#{courseID}, #{year}, #{term}, #{maxSize}, #{size})

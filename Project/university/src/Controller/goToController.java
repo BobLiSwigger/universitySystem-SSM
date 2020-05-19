@@ -1,9 +1,12 @@
 package Controller;
 
+import DAO.StudentMapper;
+import Model.classModel;
+import POJOs.Classes;
 import POJOs.Student;
 import POJOs.Teacher;
 import POJOs.User;
-import Services.UserService;
+import Services.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,6 +14,7 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 
 public class goToController implements Controller {
@@ -19,10 +23,29 @@ public class goToController implements Controller {
         /*-------------------------------必要的临时对象-------------------------------*/
         ModelAndView modelAndView = new ModelAndView("index.jsp");
         String url = request.getParameter("url");
-
+        ApplicationContext context = ContextLoader.getCurrentWebApplicationContext();
         /*-------------------------------页面控制-------------------------------*/
         if (url.equals("选课")){
-            modelAndView = new ModelAndView("WEB-INF/JSP/chooseClass.jsp");
+            Student student = (Student) context.getBean("logInStudent");
+            if (student.getlogInStatus()){
+                ClassService classService = (ClassServiceImp)context.getBean("classesService");
+                List<Classes> classes = classService.getCurrentClasses();
+                modelAndView = new ModelAndView("WEB-INF/JSP/chooseClass.jsp");
+                modelAndView.addObject("availableClasses", classes);
+                for (Classes a: classes){
+                    System.out.println(a.getCourseID());
+                }
+            }
+        }
+        if (url.equals("我修的课程")){
+            Student student = (Student) context.getBean("logInStudent");
+            if (student.getlogInStatus()){
+                StudentService studentService = (StudentServiceImp)context.getBean("studentService");
+                student.setTakenclasses(studentService.fetchTakenClasses(student.getId()));
+                modelAndView = new ModelAndView("WEB-INF/JSP/myTakenClass.jsp");
+                List<Classes> classes = student.getTakenclasses();
+                modelAndView.addObject("takenClasses",classes);
+            }
         }
 
         return modelAndView;

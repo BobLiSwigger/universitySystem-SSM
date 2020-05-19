@@ -2,8 +2,8 @@ package POJOs;
 
 public class Course {
     protected String courseID;
-    protected String dept;//学院名称
-    protected String courseName;
+    protected Dept dept;
+    public String courseName;
     public String courseDescription;
     protected float credit;
 
@@ -11,15 +11,15 @@ public class Course {
         return courseID;
     }
 
-    public void setCourseID(String courseiID) {
+    public void setCourseID(String courseID) {
         this.courseID = courseID;
     }
 
-    public String getDept() {
+    public Dept getDept() {
         return dept;
     }
 
-    public void setDept(String dept) {
+    public void setDept(Dept dept) {
         this.dept = dept;
     }
 

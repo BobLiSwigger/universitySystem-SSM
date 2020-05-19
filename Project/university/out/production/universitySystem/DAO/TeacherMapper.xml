@@ -3,15 +3,19 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="DAO.TeacherMapper">
+    <sql id="teacherAttribute">
+        users.name,
+        users.password,
+        users.email,
+        users.sex,
+        users.active,
+        teacher.dept,
+        teacher.level,
+        teacher.salary
+    </sql>
     <select id="getTeacherById" parameterType="int" resultType="POJOs.Teacher">
-        select name,
-               password,
-               email,
-               sex,
-               active,
-               dept,
-               level,
-               salary
+        select
+        <include refid="teacherAttribute"/>
         from teacherView
         where id = #{id};
     </select>
