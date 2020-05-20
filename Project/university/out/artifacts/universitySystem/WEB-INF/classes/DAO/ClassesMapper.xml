@@ -19,7 +19,7 @@
     </sql>
     <!--手动配置结果集映射-->
     <resultMap id="classMap" type="POJOs.Classes">
-        <id column="Class_ID" property="classID" />
+        <id column="classID" property="classID" />
         <result column="courseID" jdbcType="CHAR" property="courseID"/>
         <result column="courseName" jdbcType="VARCHAR" property="courseName"/>
         <result column="credit" jdbcType="FLOAT" property="credit"/>

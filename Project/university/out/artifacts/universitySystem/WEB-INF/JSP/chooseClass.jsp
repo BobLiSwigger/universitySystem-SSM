@@ -13,12 +13,13 @@
     <title>选课系统</title>
 </head>
 <body>
-<form action="dropOutClass.form" method="POST">
+<form action="chooseClass.form" method="POST">
 
     <table border="1">
         <tr>
             <td>序号</td>
             <td>课程ID</td>
+            <td>班号</td>
             <td>课程名称</td>
             <td>所属学院</td>
             <td>开课年份</td>
@@ -31,6 +32,7 @@
             <tr>
                 <td>${present.index + 1}</td>
                 <td>${itemClass.courseID}</td>
+                <td>${itemClass.classID}</td>
                 <td>${itemClass.courseName}</td>
                 <td>${itemClass.dept.name}</td>
                 <td>${itemClass.year}</td>

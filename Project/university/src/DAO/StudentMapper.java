@@ -1,5 +1,6 @@
 package DAO;
 
+import POJOs.ClassAndStudent;
 import POJOs.Classes;
 import POJOs.Student;
 
@@ -17,7 +18,7 @@ public interface StudentMapper {
     List<Classes> getTakenClasses(int id);
 
     //选课存储过程
-    void chooseClassProcedure(int classID, int id);
+    void chooseClassProcedure(ClassAndStudent classAndStudent);
 
     /*退课事务第一部分
       （第二步：扣去学分）

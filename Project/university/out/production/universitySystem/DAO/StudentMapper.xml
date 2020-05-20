@@ -44,9 +44,7 @@
           AND take.User_ID=#{id};
     </select>
     <!--选课存储过程-->
-    <select id="chooseClassProcedure" statementType="CALLABLE">
-        {
-            CALL chooseClass(#{0}, #{1})
-        }
+    <select id="chooseClassProcedure" parameterType="POJOs.ClassAndStudent">
+        CALL chooseClass(#{classID}, #{studentID});
     </select>
 </mapper>

@@ -32,9 +32,6 @@ public class goToController implements Controller {
                 List<Classes> classes = classService.getCurrentClasses();
                 modelAndView = new ModelAndView("WEB-INF/JSP/chooseClass.jsp");
                 modelAndView.addObject("availableClasses", classes);
-                for (Classes a: classes){
-                    System.out.println(a.getCourseID());
-                }
             }
         }
         if (url.equals("我修的课程")){

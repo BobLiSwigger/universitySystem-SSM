@@ -29,14 +29,14 @@ public class logIn implements Controller {
         User temp = userService.logIn(id, password);
         //登录失败-用户不存在
         if (temp.getName().equals("")){
-            modelAndView = new ModelAndView("WEB-INF/JSP/logInFailure.jsp");
+            modelAndView = new ModelAndView("error.jsp");
             modelAndView.addObject("reason", "用户不存在");
             user.setlogInStatus(false);
             return modelAndView;
         }
         //登录失败-密码错误
         if (!password.equals(temp.getPassword())){
-            modelAndView = new ModelAndView("WEB-INF/JSP/logInFailure.jsp");
+            modelAndView = new ModelAndView("error.jsp");
             modelAndView.addObject("reason", "密码错误！");
             user.setlogInStatus(false);
             return modelAndView;

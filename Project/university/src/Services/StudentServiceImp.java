@@ -2,6 +2,7 @@ package Services;
 
 import DAO.ClassesMapper;
 import DAO.StudentMapper;
+import POJOs.ClassAndStudent;
 import POJOs.Classes;
 import POJOs.Student;
 import POJOs.User;
@@ -28,7 +29,15 @@ public class StudentServiceImp implements StudentService {
 
     @Override
     public boolean chooseClass(int studentID, int classID) {
-        return false;
+        ClassAndStudent classAndStudent = new ClassAndStudent();
+        classAndStudent.setClassID(classID);
+        classAndStudent.setStudentID(studentID);
+        try {
+            studentMapper.chooseClassProcedure(classAndStudent);
+        }catch (Exception e){
+            return false;
+        }
+        return true;
     }
 
     @Override
