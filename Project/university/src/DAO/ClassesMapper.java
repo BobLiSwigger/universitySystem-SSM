@@ -1,6 +1,7 @@
 package DAO;
 
 import POJOs.Classes;
+import POJOs.Course;
 import POJOs.YearAndTerm;
 import java.util.List;
 
@@ -11,6 +12,7 @@ public interface ClassesMapper {
     public List<Classes> getCurrentClasses();//获得某一年某学期的所有课程
     public List<Classes> getAvailableClassesByID(int id);//获得某学生的可选课程
     public void createClassesTable(Classes classes);
+    public void createCourseTable(Course course);
     /*（第一步：从选课关系删除关系）
        退课事务第二部分
       （第三步：减少课程人数）

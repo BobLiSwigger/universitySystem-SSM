@@ -10,6 +10,11 @@ public class Dept {
     //Class Attributes
     public List<Course> requiredCourse;
 
+    public Dept(String deptID){
+        this.deptID = deptID;
+        this.name = null;
+    }
+
     //JavaBean Functions
     public String getDeptID() {
         return deptID;

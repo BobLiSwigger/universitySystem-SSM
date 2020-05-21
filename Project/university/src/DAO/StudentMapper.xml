@@ -16,11 +16,11 @@
         where id = #{id}
     </select>
     <insert id="createStudent" parameterType="POJOs.Student">
-        insert into Student (User_ID, Dept_ID, credit)
+        insert into student (User_ID, Dept_ID, credit)
         values(#{id}, #{dept}, #{credit})
     </insert>
     <update id="updateStudent" parameterType="POJOs.Student">
-        update Student set
+        update student set
         Dept_ID = #{dept},
         credit = #{credit}
         where User_ID = #{id}

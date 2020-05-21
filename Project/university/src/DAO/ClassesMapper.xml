@@ -67,19 +67,23 @@
     <!--获得当前学期的所有课程-->
     <select id="getCurrentClasses" resultType="POJOs.Classes" resultMap="classMap">
         SELECT *
-        FROM currentClasses;
+        FROM currentclasses;
     </select>
 
     <!--获得某学生的所有可选课程-->
     <select id="getAvailableClassesByID" parameterType="int" resultType="POJOs.Classes" resultMap="classMap">
         SELECT *
-        FROM currentClasses
+        FROM currentclasses
         where classID not in (select Class_ID as "classID" from take where User_ID=#{id})
     </select>
 
     <insert id="createClassesTable" parameterType="POJOs.Classes" useGeneratedKeys="true" keyProperty="classesID">
         insert into classes (Course_ID, year, term, maxSize, size)
         values(#{courseID}, #{year}, #{term}, #{maxSize}, #{size})
+    </insert>
+    <insert id="createCourseTable" parameterType="POJOs.Course" >
+        insert into course (Course_ID, Dept_ID, name, description, credit)
+        values(#{courseID}, #{dept.deptID}, #{courseName}, #{courseDescription}, #{credit})
     </insert>
     <update id="updateClassesTable" parameterType="POJOs.Classes">
         update classes

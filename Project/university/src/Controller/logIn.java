@@ -19,13 +19,27 @@ public class logIn implements Controller {
 
         /************************必要的临时对象************************/
         ModelAndView modelAndView;
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id;
+        try{
+            id = Integer.parseInt(request.getParameter("id"));
+        }catch (Exception e){
+            modelAndView = new ModelAndView("error.jsp");
+            modelAndView.addObject("reason", "用户名非法");
+            return modelAndView;
+        }
+
         String password = request.getParameter("password");
         ApplicationContext context = ContextLoader.getCurrentWebApplicationContext();
         UserService userService = (UserService)context.getBean("userService");
         User user = (Student)context.getBean("logInStudent");
 
         /*-------------------------------页面控制-------------------------------*/
+        String isPassword = "\\w*";
+        if (!password.matches(isPassword)){
+            modelAndView = new ModelAndView("error.jsp");
+            modelAndView.addObject("reason", "密码含有非法字符！");
+            return modelAndView;
+        }
         User temp = userService.logIn(id, password);
         //登录失败-用户不存在
         if (temp.getName().equals("")){

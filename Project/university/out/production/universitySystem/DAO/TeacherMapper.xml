@@ -16,15 +16,15 @@
     <select id="getTeacherById" parameterType="int" resultType="POJOs.Teacher">
         select
         <include refid="teacherAttribute"/>
-        from teacherView
+        from teacherview
         where id = #{id};
     </select>
     <insert id="createTeacher" parameterType="POJOs.Teacher">
-        insert into Teacher (User_ID, Dept_ID, level, salary)
+        insert into teacher (User_ID, Dept_ID, level, salary)
         values(#{id}, #{dept}, #{level}, #{salary})
     </insert>
     <update id="updateTeacher" parameterType="POJOs.Teacher">
-        update Teacher
+        update teacher
         set
             Dept_ID = #{dept},
             level = #{level},

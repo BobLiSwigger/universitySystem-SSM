@@ -1,11 +1,9 @@
 package Controller;
 
-import DAO.StudentMapper;
-import Model.classModel;
+
 import POJOs.Classes;
 import POJOs.Student;
 import POJOs.Teacher;
-import POJOs.User;
 import Services.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.ContextLoader;
@@ -32,6 +30,7 @@ public class goToController implements Controller {
                 List<Classes> classes = classService.getAvailableClassesByID(student.getId());
                 modelAndView = new ModelAndView("WEB-INF/JSP/chooseClass.jsp");
                 modelAndView.addObject("availableClasses", classes);
+                return modelAndView;
             }
         }
         if (url.equals("我修的课程")){
@@ -42,6 +41,14 @@ public class goToController implements Controller {
                 modelAndView = new ModelAndView("WEB-INF/JSP/myTakenClass.jsp");
                 List<Classes> classes = student.getTakenclasses();
                 modelAndView.addObject("takenClasses",classes);
+                return modelAndView;
+            }
+        }
+        if (url.equals("我要申请开课")){
+            Teacher teacher = (Teacher) context.getBean("logInTeacher");
+            if (teacher.getlogInStatus()){
+                modelAndView = new ModelAndView("WEB-INF/JSP/openNewCourse.jsp");
+                return modelAndView;
             }
         }
 

@@ -10,5 +10,6 @@ public interface TeacherMapper {
     void createTeacher(Teacher teacher);
     void updateTeacher(Teacher teacher);
     List<Classes> getTeachClasses(int id);
+    void teachClass(int classID, int teacherID);
     //void deleteTeacher(int id);
 }
