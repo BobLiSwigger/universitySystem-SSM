@@ -47,20 +47,22 @@ public class logIn implements Controller {
         if (temp instanceof Student){
             user.setAllAttributes(temp);
             modelAndView = new ModelAndView("WEB-INF/JSP/studentWelcome.jsp");
-            modelAndView.addObject("name",user.getName());
+            Student student = (Student) temp;
+            modelAndView.addObject("student",student);
         }
         else {
             if (temp instanceof Teacher){
+                Teacher teacher = (Teacher)temp;
                 user = (Teacher)context.getBean("logInTeacher");
                 user.setAllAttributes(temp);
                 modelAndView = new ModelAndView("WEB-INF/JSP/teacherWelcome.jsp");
-                modelAndView.addObject("name",user.getName());
+                modelAndView.addObject("teacher",teacher);
             }
             else {
                 user = (User)context.getBean("logInUser");
                 user.setAllAttributes(temp);
                 modelAndView = new ModelAndView("WEB-INF/JSP/welcome.jsp");
-                modelAndView.addObject("name",user.getName());
+                modelAndView.addObject("user",user);
             }
         }
         user.setlogInStatus(true);

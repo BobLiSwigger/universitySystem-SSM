@@ -41,6 +41,19 @@ public class StudentServiceImp implements StudentService {
     }
 
     @Override
+    public boolean dropOutClass(int studentID, int classID) {
+        ClassAndStudent classAndStudent = new ClassAndStudent();
+        classAndStudent.setClassID(classID);
+        classAndStudent.setStudentID(studentID);
+        try {
+            studentMapper.dropOutClass(classAndStudent);
+        }catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public List<Classes> fetchTakenClasses(int id) {
         return classesMapper.getClassesByStudentID(id);
     }

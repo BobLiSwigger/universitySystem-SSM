@@ -23,7 +23,7 @@
     <!--【数据库连接配置文件】dataSource这里似乎有潜在的问题（spring框架下原生jdbc是否还可以使用）-->
     <bean id="dataSource" class="org.apache.ibatis.datasource.pooled.PooledDataSource">
         <property name="driver" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/universityCourse?serverTimezone=Asia/Shanghai"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/universityCourse?serverTimezone=Asia/Shanghai&amp;allowMultiQueries=true"/>
         <property name="username" value="universityAdmin"/>
         <property name="password" value="123456"/>
     </bean>

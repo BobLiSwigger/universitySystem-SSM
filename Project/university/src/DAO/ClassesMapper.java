@@ -9,6 +9,7 @@ public interface ClassesMapper {
     public List<Classes> getClassesByStudentID(int id);
     public List<Classes> getClassesByYearAndTerm(YearAndTerm yearAndTerm);//获得某一年某学期的所有课程
     public List<Classes> getCurrentClasses();//获得某一年某学期的所有课程
+    public List<Classes> getAvailableClassesByID(int id);//获得某学生的可选课程
     public void createClassesTable(Classes classes);
     /*（第一步：从选课关系删除关系）
        退课事务第二部分

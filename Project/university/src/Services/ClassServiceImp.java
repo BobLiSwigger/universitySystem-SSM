@@ -26,4 +26,8 @@ public class ClassServiceImp implements ClassService {
         //return classesMapper.getClassesByYearAndTerm(yearAndTerm);
         return classesMapper.getCurrentClasses();
     }
+    @Override
+    public List<Classes> getAvailableClassesByID(int id) {
+        return classesMapper.getAvailableClassesByID(id);
+    }
 }

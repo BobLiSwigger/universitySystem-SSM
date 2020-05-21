@@ -11,8 +11,10 @@
     <title>登录失败！</title>
 </head>
 <body>
+<div align="center">
 <a href="${pageContext.request.contextPath}/index.jsp">返回首页</a>
 <br/><br/><br/>
 <h1>${reason}</h1>
+</div>
 </body>
 </html>

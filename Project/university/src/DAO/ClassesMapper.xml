@@ -65,9 +65,16 @@
     </select>
 
     <!--获得当前学期的所有课程-->
-    <select id="getCurrentClasses" parameterType="POJOs.Classes" resultType="POJOs.Classes" resultMap="classMap">
+    <select id="getCurrentClasses" resultType="POJOs.Classes" resultMap="classMap">
         SELECT *
         FROM currentClasses;
+    </select>
+
+    <!--获得某学生的所有可选课程-->
+    <select id="getAvailableClassesByID" parameterType="int" resultType="POJOs.Classes" resultMap="classMap">
+        SELECT *
+        FROM currentClasses
+        where classID not in (select Class_ID as "classID" from take where User_ID=#{id})
     </select>
 
     <insert id="createClassesTable" parameterType="POJOs.Classes" useGeneratedKeys="true" keyProperty="classesID">

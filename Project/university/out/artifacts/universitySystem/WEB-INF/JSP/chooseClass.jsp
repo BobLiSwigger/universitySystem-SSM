@@ -13,6 +13,7 @@
     <title>选课系统</title>
 </head>
 <body>
+<div align="center">
 <form action="chooseClass.form" method="POST">
 
     <table border="1">
@@ -47,5 +48,6 @@
     <br/>
     <input type="submit" value="选课" onclick="this.location.reload()"/>
 </form>
+</div>
 </body>
 </html>

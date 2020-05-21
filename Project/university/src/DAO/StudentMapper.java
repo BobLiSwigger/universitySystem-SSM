@@ -24,7 +24,7 @@ public interface StudentMapper {
       （第二步：扣去学分）
       （第三步：减少课程人数）
      */
-    void deleteFromTake(int classID, int id);//从选课关系删除关系
+    void dropOutClass(ClassAndStudent classAndStudent);//从选课关系删除关系
 
     //void deleteStudent(int id);
 }

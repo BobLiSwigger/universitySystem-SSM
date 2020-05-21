@@ -29,7 +29,7 @@ public class goToController implements Controller {
             Student student = (Student) context.getBean("logInStudent");
             if (student.getlogInStatus()){
                 ClassService classService = (ClassServiceImp)context.getBean("classesService");
-                List<Classes> classes = classService.getCurrentClasses();
+                List<Classes> classes = classService.getAvailableClassesByID(student.getId());
                 modelAndView = new ModelAndView("WEB-INF/JSP/chooseClass.jsp");
                 modelAndView.addObject("availableClasses", classes);
             }

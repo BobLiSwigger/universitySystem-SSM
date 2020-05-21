@@ -8,9 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>您好！${name}</title>
+    <title>您好！${user.name}</title>
 </head>
 <body>
-<h1>欢迎登录！用户${name}</h1>
+<div align="center">
+<h1>欢迎登录！用户${user.name}</h1>
+</div>
 </body>
 </html>

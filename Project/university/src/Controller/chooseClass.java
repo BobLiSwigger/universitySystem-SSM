@@ -1,7 +1,6 @@
 package Controller;
 
 
-import POJOs.Classes;
 import POJOs.Student;
 import Services.*;
 import org.springframework.context.ApplicationContext;
@@ -11,7 +10,6 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 
 public class chooseClass implements Controller {
@@ -36,7 +34,6 @@ public class chooseClass implements Controller {
                 return modelAndView;
             }
         }
-        modelAndView.addObject("tip","选课成功！");
         return modelAndView;
     }
 }

@@ -6,6 +6,7 @@
     <!--监听各种操作的控制器-->
     <bean name="/logIn.form" class="Controller.logIn"/>
     <bean name="/chooseClass.form" class="Controller.chooseClass"/>
+    <bean name="/dropOutClass.form" class="Controller.dropOutClass"/>
 
     <!--负责页面跳转的控制器-->
     <bean name="/goto.form" class="Controller.goToController"/>

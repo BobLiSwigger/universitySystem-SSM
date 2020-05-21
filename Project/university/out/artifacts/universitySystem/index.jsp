@@ -11,18 +11,32 @@
     <title>Greytit University</title>
   </head>
   <body>
+  <div align="center">
   <h1>欢迎光临Greytit大学选课系统</h1>
   <p>您好！请登录</p>
   <form action="logIn.form" method="POST">
-    <br/>
-    用户ID<input type="text" name="id"/>
-    <br/>
-    密码<input type="password" name="password"/>
-    <br/>
+    <table>
+      <tr>
+        <td>
+          用户ID
+        </td>
+        <td>
+          <input type="text" name="id"/>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          密码
+        </td>
+        <td>
+          <input type="password" name="password"/>
+        </td>
+      </tr>
+    </table>
     <input type="submit" value="提交" onclick="this.location.reload()"/>
   </form>
-  </br>
   <p>没有账户？请联系学院辅导员注册</p>
+  </div>
   </body>
 </html>
 
