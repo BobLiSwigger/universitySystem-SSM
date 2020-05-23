@@ -2,6 +2,7 @@ package Services;
 
 import DAO.ClassesMapper;
 import POJOs.Classes;
+import POJOs.Dept;
 import POJOs.GlobalValues;
 import POJOs.YearAndTerm;
 import org.springframework.context.ApplicationContext;
@@ -29,5 +30,10 @@ public class ClassServiceImp implements ClassService {
     @Override
     public List<Classes> getAvailableClassesByID(int id) {
         return classesMapper.getAvailableClassesByID(id);
+    }
+
+    @Override
+    public List<Dept> getAllDepts() {
+        return classesMapper.getAllDepts();
     }
 }

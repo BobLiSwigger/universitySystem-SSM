@@ -9,9 +9,7 @@ import POJOs.User;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.ContextLoader;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class StudentServiceImp implements StudentService {
     ApplicationContext context;
@@ -28,18 +26,26 @@ public class StudentServiceImp implements StudentService {
     }
 
     @Override
-    public boolean chooseClass(int studentID, int classID) {
+    public String chooseClass(int studentID, int classID) {
         ClassAndStudent classAndStudent = new ClassAndStudent();
-        classAndStudent.setClassID(classID);
         classAndStudent.setStudentID(studentID);
+        classAndStudent.setClassID(classID);
         try {
             studentMapper.chooseClassProcedure(classAndStudent);
         }catch (Exception e){
-            return false;
+            return "Exception";
         }
-        return true;
+        List<Classes> classes = classesMapper.getClassesByStudentID(studentID);
+        boolean haveTaken = false;
+        for (Classes a : classes){
+            if (a.getClassID() == classID){
+                return "success";
+            }
+        }
+        return "选课失败！";
     }
 
+    //退课操作
     @Override
     public boolean dropOutClass(int studentID, int classID) {
         ClassAndStudent classAndStudent = new ClassAndStudent();

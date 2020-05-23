@@ -47,11 +47,16 @@
     <select id="chooseClassProcedure" parameterType="POJOs.ClassAndStudent">
         CALL chooseClass(#{classID}, #{studentID});
     </select>
+    <!--退课事务操作-->
     <delete id="dropOutClass" parameterType="POJOs.ClassAndStudent">
-        BEGIN;
-        DELETE FROM take WHERE take.User_ID=#{studentID} AND take.Class_ID=#{classID};
-        UPDATE student SET student.credit=student.credit-(SELECT credit FROM course WHERE course_ID=(SELECT course_ID FROM classes WHERE Class_ID=#{classID})) WHERE User_ID=#{studentID};
-        UPDATE classes SET classes.size=classes.size-1 WHERE class_ID=#{classID};
-        COMMIT;
+        START TRANSACTION;
+        if (NOT EXISTS (SELECT Class_ID FROM take WHERE take.Class_ID=#{classID} AND take.User_ID=#{studentID})) then
+            ROLLBACK;
+        else
+            DELETE FROM take WHERE take.User_ID=#{studentID} AND take.Class_ID=#{classID};
+            UPDATE student SET student.credit=student.credit-(SELECT credit FROM course WHERE course_ID=(SELECT course_ID FROM classes WHERE Class_ID=#{classID})) WHERE User_ID=#{studentID};
+            UPDATE classes SET classes.size=classes.size-1 WHERE class_ID=#{classID};
+            COMMIT;
+        END if;
     </delete>
 </mapper>

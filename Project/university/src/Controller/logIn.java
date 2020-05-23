@@ -20,6 +20,31 @@ public class logIn implements Controller {
         /************************必要的临时对象************************/
         ModelAndView modelAndView;
         int id;
+        String password = request.getParameter("password");
+        ApplicationContext context = ContextLoader.getCurrentWebApplicationContext();
+        UserService userService = (UserService)context.getBean("userService");
+        Student logInStudent = (Student)context.getBean("logInStudent");
+        Teacher logInTeacher = (Teacher)context.getBean("logInTeacher");
+        User logInUser = (User)context.getBean("logInUser");
+        /*-------------------------------页面控制-------------------------------*/
+
+        //已经登录
+        if (logInStudent.getlogInStatus()){
+            modelAndView = new ModelAndView("WEB-INF/JSP/studentWelcome.jsp");
+            modelAndView.addObject("student",logInStudent);
+            return modelAndView;
+        }
+        if (logInTeacher.getlogInStatus()){
+            modelAndView = new ModelAndView("WEB-INF/JSP/teacherWelcome.jsp");
+            modelAndView.addObject("teacher",logInTeacher);
+            return modelAndView;
+        }
+        if (logInUser.getlogInStatus()) {
+            modelAndView = new ModelAndView("WEB-INF/JSP/welcome.jsp");
+            modelAndView.addObject("user", logInUser);
+            return modelAndView;
+        }
+        //没有登录
         try{
             id = Integer.parseInt(request.getParameter("id"));
         }catch (Exception e){
@@ -27,59 +52,54 @@ public class logIn implements Controller {
             modelAndView.addObject("reason", "用户名非法");
             return modelAndView;
         }
-
-        String password = request.getParameter("password");
-        ApplicationContext context = ContextLoader.getCurrentWebApplicationContext();
-        UserService userService = (UserService)context.getBean("userService");
-        User user = (Student)context.getBean("logInStudent");
-
-        /*-------------------------------页面控制-------------------------------*/
         String isPassword = "\\w*";
         if (!password.matches(isPassword)){
             modelAndView = new ModelAndView("error.jsp");
             modelAndView.addObject("reason", "密码含有非法字符！");
             return modelAndView;
         }
-        User temp = userService.logIn(id, password);
+        String logInResult = userService.logIn(id, password);
         //登录失败-用户不存在
-        if (temp.getName().equals("")){
+        if (logInResult.equals("failure")){
             modelAndView = new ModelAndView("error.jsp");
             modelAndView.addObject("reason", "用户不存在");
-            user.setlogInStatus(false);
-            return modelAndView;
-        }
-        //登录失败-密码错误
-        if (!password.equals(temp.getPassword())){
-            modelAndView = new ModelAndView("error.jsp");
-            modelAndView.addObject("reason", "密码错误！");
-            user.setlogInStatus(false);
             return modelAndView;
         }
 
-        //登录成功
-        user.setlogInStatus(true);
-        if (temp instanceof Student){
-            user.setAllAttributes(temp);
+
+        if (logInResult.equals("student")){
+            if (!logInStudent.getPassword().equals(password)){
+                modelAndView = new ModelAndView("error.jsp");
+                modelAndView.addObject("reason", "密码错误");
+                return modelAndView;
+            }
+            logInStudent.setlogInStatus(true);
             modelAndView = new ModelAndView("WEB-INF/JSP/studentWelcome.jsp");
-            Student student = (Student) temp;
-            modelAndView.addObject("student",student);
+            modelAndView.addObject("student",logInStudent);
+            return modelAndView;
         }
-        else {
-            if (temp instanceof Teacher){
-                Teacher teacher = (Teacher)temp;
-                user = (Teacher)context.getBean("logInTeacher");
-                user.setAllAttributes(temp);
-                modelAndView = new ModelAndView("WEB-INF/JSP/teacherWelcome.jsp");
-                modelAndView.addObject("teacher",teacher);
+        if (logInResult.equals("teacher")){
+            if (!logInTeacher.getPassword().equals(password)){
+                modelAndView = new ModelAndView("error.jsp");
+                modelAndView.addObject("reason", "密码错误");
+                return modelAndView;
             }
-            else {
-                user = (User)context.getBean("logInUser");
-                user.setAllAttributes(temp);
-                modelAndView = new ModelAndView("WEB-INF/JSP/welcome.jsp");
-                modelAndView.addObject("user",user);
-            }
+            logInTeacher.setlogInStatus(true);
+            modelAndView = new ModelAndView("WEB-INF/JSP/teacherWelcome.jsp");
+            modelAndView.addObject("teacher",logInTeacher);
+            return modelAndView;
         }
-        user.setlogInStatus(true);
+        if (logInResult.equals("user")) {
+            if (!logInUser.getPassword().equals(password)) {
+                modelAndView = new ModelAndView("error.jsp");
+                modelAndView.addObject("reason", "密码错误");
+                return modelAndView;
+            }
+            modelAndView = new ModelAndView("WEB-INF/JSP/welcome.jsp");
+            modelAndView.addObject("user", logInUser);
+            return modelAndView;
+        }
+        modelAndView = new ModelAndView("index.jsp");
         return modelAndView;
     }
 }

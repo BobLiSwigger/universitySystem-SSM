@@ -3,6 +3,8 @@ package Services;
 import DAO.StudentMapper;
 import DAO.TeacherMapper;
 import DAO.UserMapper;
+import POJOs.Student;
+import POJOs.Teacher;
 import POJOs.User;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.ContextLoader;
@@ -20,27 +22,36 @@ public class UserServiceImp implements UserService{
         this.teacherMapper = (TeacherMapper)context.getBean("teacherMapper");
     }
 
-    public User logIn(int id, String password) {
+    public String logIn(int id, String password) {
         /*------------------------------业务逻辑begin------------------------------*/
-        User temp = studentMapper.getStudentById(id);
-        if (temp != null){
-            return temp;
+        Student student = studentMapper.getStudentById(id);
+
+        if (student != null){
+            Student logInStudent = (Student)context.getBean("logInStudent");
+            logInStudent.setAllAttribures(student);
+            return "student";
         }
         //不是学生
         else{
-            temp = teacherMapper.getTeacherById(id);
-            if (temp != null){
-                return temp;
+            Teacher teacher = teacherMapper.getTeacherById(id);
+            if (teacher != null){
+                Teacher logInTeacher = (Teacher)context.getBean("logInTeacher");
+                logInTeacher.setAllAttribures(teacher);
+                System.out.println("ID: "+teacher.getId()+" teacher just logged in.");
+                System.out.println("Dept: "+logInTeacher.getDept()+", level: "+logInTeacher.getLevel()+", Salary: "+ logInTeacher.getSalary());
+                return "teacher";
             }
             //不是教师
             else{
-                temp = userMapper.getUserById(id);
-                if (temp != null){
-                    return temp;
+                User user = userMapper.getUserById(id);
+                if (user != null){
+                    User logInUser = (User)context.getBean("logInUser");
+                    logInUser.setAllAttributes(user);
+                    System.out.println("ID: "+logInUser.getId()+" user just logged in.");
+                    return "user";
                 }
             }
-            //没有这个用户
-            return new User();
+            return "failure";
         }
         /*------------------------------业务逻辑end------------------------------*/
     }

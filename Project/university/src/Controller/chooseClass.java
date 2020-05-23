@@ -14,10 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 
 public class chooseClass implements Controller {
     @Override
-    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) {
         /*-------------------------------必要的临时对象-------------------------------*/
-        ModelAndView modelAndView = new ModelAndView("WEB-INF/JSP/chooseClass.jsp");
-        String chosenClasses[] = request.getParameterValues("chosenClass");
+        ModelAndView modelAndView;
+        String[] chosenClasses = request.getParameterValues("chosenClass");
         ApplicationContext context = ContextLoader.getCurrentWebApplicationContext();
         Student student = (Student)context.getBean("logInStudent");
         StudentService studentService = (StudentService)context.getBean("studentService");
@@ -27,13 +27,21 @@ public class chooseClass implements Controller {
             modelAndView.addObject("reason", "您未登录，请重新登录！");
             return modelAndView;
         }
-        for (int i=0;i<chosenClasses.length;i++){
-            if (!studentService.chooseClass(student.getId(), Integer.parseInt(chosenClasses[i]))){
+        for (String chosenClass : chosenClasses) {
+            String result = studentService.chooseClass(student.getId(), Integer.parseInt(chosenClass));
+            if (result.equals("Exception")) {
                 modelAndView = new ModelAndView("error.jsp");
-                modelAndView.addObject("reason", "选课失败!");
+                modelAndView.addObject("reason", "异常错误！");
+                return modelAndView;
+            }
+            if (!result.equals("success")){
+                modelAndView = new ModelAndView("error.jsp");
+                modelAndView.addObject("reason", result);
                 return modelAndView;
             }
         }
+        modelAndView = new ModelAndView("success.jsp");
+        modelAndView.addObject("tip","选课成功！");
         return modelAndView;
     }
 }

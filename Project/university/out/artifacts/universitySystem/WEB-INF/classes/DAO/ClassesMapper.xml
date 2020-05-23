@@ -53,6 +53,17 @@
             AND take.User_ID=#{id};
     </select>
 
+    <!--按照教师ID查找Classes-->
+    <select id="getClassesByTeacherID" parameterType="int" resultType="POJOs.Classes" resultMap="classMap">
+        SELECT
+        <include refid="classesAttribute"/>
+        FROM course, classes, department, teach
+        WHERE classes.Course_ID=course.Course_ID
+        AND course.Dept_ID=department.Dept_ID
+        AND teach.Class_ID=classes.Class_ID
+        AND teach.User_ID=#{id};
+    </select>
+
     <!--获得某一年某学期的所有课程-->
     <select id="getClassesByYearAndTerm" parameterType="POJOs.Classes" resultType="POJOs.Classes" resultMap="classMap">
         SELECT
@@ -81,6 +92,7 @@
         insert into classes (Course_ID, year, term, maxSize, size)
         values(#{courseID}, #{year}, #{term}, #{maxSize}, #{size})
     </insert>
+    <!--向course表插入（开课操作）-->
     <insert id="createCourseTable" parameterType="POJOs.Course" >
         insert into course (Course_ID, Dept_ID, name, description, credit)
         values(#{courseID}, #{dept.deptID}, #{courseName}, #{courseDescription}, #{credit})
@@ -95,4 +107,10 @@
             size = #{size}
         where Class_ID = #{classID}
     </update>
+    <select id="getAllDepts" resultType="POJOs.Dept">
+        select
+               Dept_ID as "deptID",
+               name as "name"
+        from department;
+    </select>
 </mapper>

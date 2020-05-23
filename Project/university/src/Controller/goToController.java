@@ -39,15 +39,25 @@ public class goToController implements Controller {
                 StudentService studentService = (StudentServiceImp)context.getBean("studentService");
                 student.setTakenclasses(studentService.fetchTakenClasses(student.getId()));
                 modelAndView = new ModelAndView("WEB-INF/JSP/myTakenClass.jsp");
-                List<Classes> classes = student.getTakenclasses();
-                modelAndView.addObject("takenClasses",classes);
+                modelAndView.addObject("takenClasses",student.getTakenclasses());
                 return modelAndView;
             }
         }
-        if (url.equals("我要申请开课")){
+        if (url.equals("我教的课")){
             Teacher teacher = (Teacher) context.getBean("logInTeacher");
             if (teacher.getlogInStatus()){
                 modelAndView = new ModelAndView("WEB-INF/JSP/openNewCourse.jsp");
+                TeacherService teacherService = (TeacherServiceImp)context.getBean("teacherService");
+                ClassService classService = (ClassServiceImp)context.getBean("classesService");
+                teacher.setTeachClass(teacherService.fetchTaughtClasses(teacher.getId()));
+
+                modelAndView.addObject("teachClasses", teacher.getTeachClass());
+                List<Classes> classes = teacher.getTeachClass();
+                modelAndView.addObject("depts", classService.getAllDepts());
+                System.out.println("This is goToController(myTaughtClasses) running.");
+                for (Classes a : classes){
+                    System.out.println(a.getCourseID());
+                }
                 return modelAndView;
             }
         }

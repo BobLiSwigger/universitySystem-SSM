@@ -5,6 +5,7 @@ import POJOs.Classes;
 import POJOs.Student;
 
 import java.util.List;
+import java.util.Map;
 
 public interface StudentMapper {
     Student getStudentById(int id);
@@ -18,12 +19,8 @@ public interface StudentMapper {
     List<Classes> getTakenClasses(int id);
 
     //选课存储过程
-    void chooseClassProcedure(ClassAndStudent classAndStudent);
+    public void chooseClassProcedure(ClassAndStudent classAndStudent);
 
-    /*退课事务第一部分
-      （第二步：扣去学分）
-      （第三步：减少课程人数）
-     */
     void dropOutClass(ClassAndStudent classAndStudent);//从选课关系删除关系
 
     //void deleteStudent(int id);

@@ -11,7 +11,7 @@
     <title>恭喜！</title>
 </head>
 <body>
-<a href="${pageContext.request.contextPath}/index.jsp">返回首页</a>
+<a href="${pageContext.request.contextPath}/logIn.form">返回首页</a>
 <br/><br/><br/>
 <h1>${tip}</h1>
 </body>

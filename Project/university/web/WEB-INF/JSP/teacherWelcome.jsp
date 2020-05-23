@@ -16,7 +16,7 @@
 <div align="center">
 <h1>欢迎回到学生信息系统，${teacher.name}。</h1>
     <form action="${pageContext.request.contextPath}/goto.form" method="get">
-        <input name="url" value="我要申请开课" type="submit" onclick="this.location.reload()"/>
+        <input name="url" value="我教的课" type="submit" onclick="this.location.reload()"/>
     </form>
 <table>
     <tr>

@@ -18,9 +18,8 @@ public class dropOutClass implements Controller {
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         /*-------------------------------必要的临时对象-------------------------------*/
-        ModelAndView modelAndView = new ModelAndView("WEB-INF/JSP/myTakenClass.jsp");
-        String chosenClasses[] = request.getParameterValues("chosenClass");
-
+        ModelAndView modelAndView;
+        String[] chosenClasses = request.getParameterValues("chosenClass");
         ApplicationContext context = ContextLoader.getCurrentWebApplicationContext();
         Student student = (Student)context.getBean("logInStudent");
         StudentService studentService = (StudentService)context.getBean("studentService");
@@ -37,9 +36,8 @@ public class dropOutClass implements Controller {
                 return modelAndView;
             }
         }
-        student.setTakenclasses(studentService.fetchTakenClasses(student.getId()));
-        List<Classes> classes = student.getTakenclasses();
-        modelAndView.addObject("takenClasses",classes);
+        modelAndView = new ModelAndView("success.jsp");
+        modelAndView.addObject("tip", "退课成功！");
         return modelAndView;
     }
 }
