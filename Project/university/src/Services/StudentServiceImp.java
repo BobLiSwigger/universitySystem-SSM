@@ -2,10 +2,9 @@ package Services;
 
 import DAO.ClassesMapper;
 import DAO.StudentMapper;
-import POJOs.ClassAndStudent;
+import POJOs.ClassAndUser;
 import POJOs.Classes;
 import POJOs.Student;
-import POJOs.User;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.ContextLoader;
 
@@ -27,11 +26,11 @@ public class StudentServiceImp implements StudentService {
 
     @Override
     public String chooseClass(int studentID, int classID) {
-        ClassAndStudent classAndStudent = new ClassAndStudent();
-        classAndStudent.setStudentID(studentID);
-        classAndStudent.setClassID(classID);
+        ClassAndUser classAndUser = new ClassAndUser();
+        classAndUser.setUserID(studentID);
+        classAndUser.setClassID(classID);
         try {
-            studentMapper.chooseClassProcedure(classAndStudent);
+            studentMapper.chooseClassProcedure(classAndUser);
         }catch (Exception e){
             return "Exception";
         }
@@ -48,11 +47,11 @@ public class StudentServiceImp implements StudentService {
     //退课操作
     @Override
     public boolean dropOutClass(int studentID, int classID) {
-        ClassAndStudent classAndStudent = new ClassAndStudent();
-        classAndStudent.setClassID(classID);
-        classAndStudent.setStudentID(studentID);
+        ClassAndUser classAndUser = new ClassAndUser();
+        classAndUser.setClassID(classID);
+        classAndUser.setUserID(studentID);
         try {
-            studentMapper.dropOutClass(classAndStudent);
+            studentMapper.dropOutClass(classAndUser);
         }catch (Exception e){
             return false;
         }

@@ -50,4 +50,8 @@
           AND teach.Class_ID=classes.Class_ID
           AND teach.User_ID=#{id};
     </select>
+    <insert id="teachClass" parameterType="POJOs.ClassAndUser">
+        insert into teach (User_ID, Class_ID)
+        values(#{userID}, #{classID})
+    </insert>
 </mapper>

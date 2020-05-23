@@ -88,7 +88,7 @@
         where classID not in (select Class_ID as "classID" from take where User_ID=#{id})
     </select>
 
-    <insert id="createClassesTable" parameterType="POJOs.Classes" useGeneratedKeys="true" keyProperty="classesID">
+    <insert id="createClassesTable" parameterType="POJOs.Classes" useGeneratedKeys="true" keyProperty="classID">
         insert into classes (Course_ID, year, term, maxSize, size)
         values(#{courseID}, #{year}, #{term}, #{maxSize}, #{size})
     </insert>

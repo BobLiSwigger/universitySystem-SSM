@@ -1,11 +1,10 @@
 package DAO;
 
-import POJOs.ClassAndStudent;
+import POJOs.ClassAndUser;
 import POJOs.Classes;
 import POJOs.Student;
 
 import java.util.List;
-import java.util.Map;
 
 public interface StudentMapper {
     Student getStudentById(int id);
@@ -19,9 +18,9 @@ public interface StudentMapper {
     List<Classes> getTakenClasses(int id);
 
     //选课存储过程
-    public void chooseClassProcedure(ClassAndStudent classAndStudent);
+    public void chooseClassProcedure(ClassAndUser classAndUser);
 
-    void dropOutClass(ClassAndStudent classAndStudent);//从选课关系删除关系
+    void dropOutClass(ClassAndUser classAndUser);//从选课关系删除关系
 
     //void deleteStudent(int id);
 }
